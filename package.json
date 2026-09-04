@@ -1,0 +1,14 @@
+{
+  "name": "cs-465-travlr-getaways",
+  "version": "1.0.0",
+  "description": "Travlr Getaways full stack MEAN application - CS 465",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Prosper Ashanga",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
