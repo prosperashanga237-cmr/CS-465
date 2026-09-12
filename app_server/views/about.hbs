@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{{title}}</title>
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+	<div id="background">
+		<div id="page">
+			{{> header}}
+			<div id="contents">
+				<div class="box">
+					<div>
+						<div class="body">
+							<h1>About</h1>
+							<h2>Welcome to Travlr Getaways</h2>
+							<p>
+								Travlr Getaways connects travelers with beach resorts, dive sites, rooms, and dining experiences around the world. This page, along with the rest of the site, is now served through an MVC-structured Express application: routes hand requests off to the traveler controller, which renders the matching Handlebars view.
+							</p>
+							<p>
+								We're constantly adding new destinations and experiences. If you don't see what you're looking for today, check back soon as our catalog grows.
+							</p>
+							<hr>
+							<div class="ads">
+								<h2>Our Crews</h2>
+								<p>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a arcu ipsum.
+								</p>
+								<h2>Amenities</h2>
+								<p>
+									Phasellus porta ultrices lorem vel luctus. Cras sodales nulla vitae eros fermentum consequat. Aenean at purus odio.
+								</p>
+							</div>
+							<h2>Be Part of Our Community</h2>
+							<p>
+								If you have questions or feedback about Travlr Getaways, please don't hesitate to reach out through our Contact page.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{> footer}}
+	</div>
+</body>
+</html>
