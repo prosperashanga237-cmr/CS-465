@@ -6,7 +6,32 @@
  * Handlebars (HBS) view. Keeping this logic here (instead of inline in
  * app.js) is what separates the Controller layer from the Router and
  * View layers in the MVC pattern.
+ *
+ * Module Three: the Travel page's destination data used to be a
+ * hardcoded array right in this file (static data). It now lives in
+ * trips.json at the project root and is read in dynamically on every
+ * request, which is what lets the page's content change just by
+ * editing the JSON file -- no code change or server restart required.
  */
+
+const fs = require('fs');
+const path = require('path');
+
+// Absolute path to the JSON data file that backs the Travel page.
+const tripsDataPath = path.join(__dirname, '..', '..', 'trips.json');
+
+// Reads and parses trips.json fresh on every call. Wrapped in try/catch
+// so a missing or malformed JSON file doesn't crash the server -- the
+// Travel page just renders with an empty list instead.
+function getTrips() {
+  try {
+    const raw = fs.readFileSync(tripsDataPath, 'utf8');
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error('Could not read trips.json:', err.message);
+    return [];
+  }
+}
 
 // Latest blog teasers shown on the home page.
 const blogPosts = [
@@ -21,34 +46,6 @@ const blogPosts = [
     date: 'May 29, 2023',
     excerpt:
       'Maecenas scelerisque odio quis arcu fringilla malesuada. Nulla facilisi. In libero nulla, fermentum ut pretium ac, pharetra et eros...',
-  },
-];
-
-// Dive/reef destinations shown on the Travel page.
-const reefs = [
-  {
-    name: 'Gale Reef',
-    image: 'reef1.jpg',
-    description: [
-      'Sed et augue lorem. In sit amet placerat arcu. Mauris volutpat ipsum ac justo mollis vel vestibulum orci gravida. Vestibulum sit amet porttitor odio. Nulla facilisi. Fusce at pretium felis.',
-      'Sed consequat libero ut turpis venenatis ut aliquam risus semper. Etiam convallis mi vel risus pretium sodales. Etiam nunc lorem ullamcorper vitae laoreet.',
-    ],
-  },
-  {
-    name: "Dawson's Reef",
-    image: 'reef2.jpg',
-    description: [
-      'Integer magna leo, posuere et dignissim vitae, porttitor at odio. Pellentesque a metus nec magna placerat volutpat. Nunc nisi mi, elementum sit amet aliquet quis, tristique quis nisl. Curabitur odio lacus, blandit ut hendrerit',
-      'vulputate, vulputate at est. Morbi aliquet viverra metus eu consectetur. In lorem dui, elementum sit amet convallis ac, tincidunt vel sapien.',
-    ],
-  },
-  {
-    name: "Claire's Reef",
-    image: 'reef3.jpg',
-    description: [
-      'Donec sed felis risus. Nulla facilisi. Donec a orci tellus, et auctor odio. Fusce ac orci nibh, quis semper arcu. Cras orci neque, euismod et accumsan ac, sagittis molestie lorem. Proin odio sapien, elementum at tempor non.',
-      'Vulputate eget libero. In hac habitasse platea dictumst. Integer purus justo, egestas eu consectetur eu, cursus in tortor. Quisque nec nunc ac mi ultrices iaculis.',
-    ],
   },
 ];
 
@@ -124,7 +121,10 @@ exports.index = (req, res) => {
 };
 
 exports.travel = (req, res) => {
-  res.render('travel', { title: 'Travel | Travlr Getaways', reefs });
+  // trips is read from trips.json (via getTrips()) instead of a
+  // hardcoded array -- this is the dynamic-JSON rendering path.
+  const trips = getTrips();
+  res.render('travel', { title: 'Travel | Travlr Getaways', trips });
 };
 
 exports.rooms = (req, res) => {

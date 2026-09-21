@@ -11,6 +11,7 @@
 
 var express = require('express');
 var path = require('path');
+var fs = require('fs');
 var hbs = require('hbs');
 
 var app = express();
@@ -24,6 +25,15 @@ app.set('view engine', 'hbs');
 // with {{> header}} and {{> footer}}.
 hbs.registerPartials(path.join(__dirname, 'app_server', 'views', 'partials'));
 
+// Explicitly (synchronously) register trip-item too, as a safety net in
+// case the async folder scan above missed a freshly added file.
+hbs.registerPartial(
+  'trip-item',
+  fs.readFileSync(
+    path.join(__dirname, 'app_server', 'views', 'partials', 'trip-item.hbs'),
+    'utf8'
+  )
+);
 // Serve static assets (CSS, images) from the "public" folder.
 app.use(express.static(path.join(__dirname, 'public')));
 
