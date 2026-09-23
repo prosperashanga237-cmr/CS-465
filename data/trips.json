@@ -1,0 +1,62 @@
+[
+  {
+    "code": "GALR241115",
+    "name": "Gale Reef Dive Adventure",
+    "length": "5 nights / 6 days",
+    "start": "2026-11-15",
+    "resort": "Gale Reef Resort & Spa",
+    "perPerson": "$1,285.00",
+    "image": "reef1.jpg",
+    "description": "Explore the vibrant coral formations of Gale Reef on this guided diving getaway, with daily excursions, full board accommodations, and sunset catamaran cruises included."
+  },
+  {
+    "code": "DWSR241201",
+    "name": "Dawson's Reef Snorkel Escape",
+    "length": "4 nights / 5 days",
+    "start": "2026-12-01",
+    "resort": "Dawson's Reef Beach Resort",
+    "perPerson": "$975.00",
+    "image": "reef2.jpg",
+    "description": "A relaxed snorkeling getaway along Dawson's Reef, featuring beachfront rooms, two guided snorkel excursions, and a welcome dinner under the stars."
+  },
+  {
+    "code": "CLRR250110",
+    "name": "Claire's Reef Family Getaway",
+    "length": "7 nights / 8 days",
+    "start": "2027-01-10",
+    "resort": "Claire's Reef Family Resort",
+    "perPerson": "$1,540.00",
+    "image": "reef3.jpg",
+    "description": "A week-long family-friendly retreat near Claire's Reef, with kids' programs, all-inclusive dining, and a private beach cabana for every booking."
+  },
+  {
+    "code": "FCLS241020",
+    "name": "First Class Room Retreat",
+    "length": "3 nights / 4 days",
+    "start": "2026-10-20",
+    "resort": "Travlr Getaways Main Resort",
+    "perPerson": "$860.00",
+    "image": "first-class.jpg",
+    "description": "A short luxury escape in our First Class Room accommodations, complete with concierge service, spa access, and gourmet in-room dining."
+  },
+  {
+    "code": "DLXR241005",
+    "name": "Deluxe Room Weekend",
+    "length": "2 nights / 3 days",
+    "start": "2026-10-05",
+    "resort": "Travlr Getaways Main Resort",
+    "perPerson": "$540.00",
+    "image": "deluxe.jpg",
+    "description": "A quick weekend getaway in a Deluxe Room, ideal for couples looking for a relaxing coastal escape with breakfast included."
+  },
+  {
+    "code": "STER241128",
+    "name": "Suite Room Sea Escape",
+    "length": "5 nights / 6 days",
+    "start": "2026-11-28",
+    "resort": "Travlr Getaways Main Resort",
+    "perPerson": "$1,120.00",
+    "image": "suite.jpg",
+    "description": "Unwind in a spacious Suite Room with panoramic sea views, a private balcony, and daily housekeeping included in this extended getaway package."
+  }
+]

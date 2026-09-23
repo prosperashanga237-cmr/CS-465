@@ -1,18 +1,28 @@
 /**
  * app.js
- * Module Two - Travlr Getaways
+ * Module Four - Travlr Getaways
  *
  * Refactored to an MVC architecture. Express now renders dynamic HBS
  * (Handlebars) views instead of serving pre-built HTML files. The
  * "public" folder is still used, but now only for static assets
  * (CSS and images) -- the pages themselves live in app_server/views
  * and are rendered by the traveler controller via app_server/routes.
+ *
+ * Module Four adds a MongoDB data layer (via Mongoose) and a JSON
+ * REST API (app_api) that sits alongside the existing HBS-rendered
+ * app_server routes. Requiring app_api/models/db here opens the
+ * Mongoose connection (and registers the "trips" schema) as soon as
+ * the server starts.
  */
 
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var hbs = require('hbs');
+
+// Opens the Mongoose connection to MongoDB (using DB_URI from .env)
+// and registers the "trips" schema/model used by the API controllers.
+require('./app_api/models/db');
 
 var app = express();
 
@@ -25,8 +35,11 @@ app.set('view engine', 'hbs');
 // with {{> header}} and {{> footer}}.
 hbs.registerPartials(path.join(__dirname, 'app_server', 'views', 'partials'));
 
-// Explicitly (synchronously) register trip-item too, as a safety net in
-// case the async folder scan above missed a freshly added file.
+// registerPartials() above scans the partials folder asynchronously. On
+// some setups a freshly added file in that folder can lose the race
+// against the very first request and come back as "partial not found".
+// Registering trip-item explicitly (synchronously) guarantees it is
+// always available regardless of that timing.
 hbs.registerPartial(
   'trip-item',
   fs.readFileSync(
@@ -34,6 +47,7 @@ hbs.registerPartial(
     'utf8'
   )
 );
+
 // Serve static assets (CSS, images) from the "public" folder.
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -41,6 +55,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // on the traveler controller (app_server/controllers/travel.js).
 var routes = require('./app_server/routes/index');
 app.use('/', routes);
+
+// Register the JSON REST API routes (app_api) under /api, e.g.
+// GET /api/trips and GET /api/trips/:tripCode. Kept separate from the
+// "/" routes above so HTML-rendering routes and JSON API routes don't mix.
+var apiRoutes = require('./app_api/routes/index');
+app.use('/api', apiRoutes);
 
 // Set the port the server will listen on.
 var port = process.env.PORT || 3000;
