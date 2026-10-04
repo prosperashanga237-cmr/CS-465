@@ -1,6 +1,6 @@
 /**
  * app.js
- * Module Four - Travlr Getaways
+ * Module Five - Travlr Getaways
  *
  * Refactored to an MVC architecture. Express now renders dynamic HBS
  * (Handlebars) views instead of serving pre-built HTML files. The
@@ -8,11 +8,20 @@
  * (CSS and images) -- the pages themselves live in app_server/views
  * and are rendered by the traveler controller via app_server/routes.
  *
- * Module Four adds a MongoDB data layer (via Mongoose) and a JSON
+ * Module Four added a MongoDB data layer (via Mongoose) and a JSON
  * REST API (app_api) that sits alongside the existing HBS-rendered
  * app_server routes. Requiring app_api/models/db here opens the
  * Mongoose connection (and registers the "trips" schema) as soon as
  * the server starts.
+ *
+ * Module Five: Separation of Concerns. app_api is a fully independent
+ * top-level application, mounted here at /api, with no code shared
+ * between it and app_server beyond this one line. app_server's own
+ * controller no longer touches Mongoose or the database directly --
+ * it calls GET /api/trips over HTTP just like Angular.js or any other
+ * external caller would, which is what lets any of those three kinds
+ * of clients be added or swapped later without touching the database
+ * layer at all.
  */
 
 var express = require('express');

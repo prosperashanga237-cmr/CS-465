@@ -8,27 +8,35 @@
  * View layers in the MVC pattern.
  *
  * Module Three: the Travel page's destination data used to be a
- * hardcoded array right in this file (static data). It now lives in
- * trips.json at the project root and is read in dynamically on every
- * request, which is what lets the page's content change just by
- * editing the JSON file -- no code change or server restart required.
+ * hardcoded array right in this file (static data). It was then moved
+ * into trips.json and read in dynamically on every request.
+ *
+ * Module Five: Separation of Concerns. Database access code no longer
+ * lives inside app_server at all -- it was already isolated inside
+ * app_api (which talks to MongoDB via Mongoose), and this controller
+ * now consumes that REST API exactly the way any other client
+ * (Angular.js, a mobile app, or an external caller) would: over HTTP,
+ * with no direct knowledge of Mongoose, schemas, or the database. This
+ * keeps the Express backend, the database layer, and any future
+ * front-end client each able to change independently of the others.
  */
 
-const fs = require('fs');
-const path = require('path');
+const axios = require('axios');
 
-// Absolute path to the JSON data file that backs the Travel page.
-const tripsDataPath = path.join(__dirname, '..', '..', 'trips.json');
+// Base URL for our own REST API. app_api is mounted on this same
+// Express server (see app.js), so the app server calls back into its
+// own running process over HTTP, just like an external caller would.
+const API_BASE_URL = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
 
-// Reads and parses trips.json fresh on every call. Wrapped in try/catch
-// so a missing or malformed JSON file doesn't crash the server -- the
-// Travel page just renders with an empty list instead.
-function getTrips() {
+// Fetches the full trip list from GET /api/trips. Wrapped in try/catch
+// so an API or database hiccup doesn't crash the server -- the Travel
+// page just renders with an empty list instead, and the error is logged.
+async function getTrips() {
   try {
-    const raw = fs.readFileSync(tripsDataPath, 'utf8');
-    return JSON.parse(raw);
+    const response = await axios.get(`${API_BASE_URL}/api/trips`);
+    return response.data;
   } catch (err) {
-    console.error('Could not read trips.json:', err.message);
+    console.error('Could not fetch trips from the API:', err.message);
     return [];
   }
 }
@@ -120,10 +128,11 @@ exports.index = (req, res) => {
   res.render('index', { title: 'Travlr Getaways', posts: blogPosts });
 };
 
-exports.travel = (req, res) => {
-  // trips is read from trips.json (via getTrips()) instead of a
-  // hardcoded array -- this is the dynamic-JSON rendering path.
-  const trips = getTrips();
+exports.travel = async (req, res) => {
+  // trips now comes from our own REST API (GET /api/trips), which in
+  // turn reads from MongoDB via Mongoose -- app_server never touches
+  // the database directly.
+  const trips = await getTrips();
   res.render('travel', { title: 'Travel | Travlr Getaways', trips });
 };
 
