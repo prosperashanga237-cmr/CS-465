@@ -1,27 +1,15 @@
 /**
  * app.js
- * Module Five - Travlr Getaways
+ * Module Six - Travlr Getaways
  *
- * Refactored to an MVC architecture. Express now renders dynamic HBS
- * (Handlebars) views instead of serving pre-built HTML files. The
- * "public" folder is still used, but now only for static assets
- * (CSS and images) -- the pages themselves live in app_server/views
- * and are rendered by the traveler controller via app_server/routes.
+ * This file should already match your Module Five app.js almost exactly.
+ * The ONE required change for Module Six is adding express.json() so the
+ * server can parse the JSON request bodies the new Angular admin SPA will
+ * send on POST (add trip) and PUT (update trip) requests -- GET and DELETE
+ * don't need a body, which is why this wasn't needed until now.
  *
- * Module Four added a MongoDB data layer (via Mongoose) and a JSON
- * REST API (app_api) that sits alongside the existing HBS-rendered
- * app_server routes. Requiring app_api/models/db here opens the
- * Mongoose connection (and registers the "trips" schema) as soon as
- * the server starts.
- *
- * Module Five: Separation of Concerns. app_api is a fully independent
- * top-level application, mounted here at /api, with no code shared
- * between it and app_server beyond this one line. app_server's own
- * controller no longer touches Mongoose or the database directly --
- * it calls GET /api/trips over HTTP just like Angular.js or any other
- * external caller would, which is what lets any of those three kinds
- * of clients be added or swapped later without touching the database
- * layer at all.
+ * Everything else (view engine, partials, static assets, app_server routes,
+ * app_api routes, the Mongoose connection) is unchanged from Module Five.
  */
 
 var express = require('express');
@@ -56,6 +44,11 @@ hbs.registerPartial(
     'utf8'
   )
 );
+
+// Module Six: parse incoming JSON request bodies (e.g. the trip object the
+// Angular admin SPA sends on POST /api/trips and PUT /api/trips/:tripCode)
+// into req.body. Must come before the API routes are registered below.
+app.use(express.json());
 
 // Serve static assets (CSS, images) from the "public" folder.
 app.use(express.static(path.join(__dirname, 'public')));

@@ -1,0 +1,56 @@
+﻿=== app.ts ===
+import { Component, signal } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  standalone: false,
+  styleUrl: './app.css',
+  templateUrl: './app.html',
+})
+export class App {
+  protected readonly title = signal('travlr-admin');
+}
+
+
+=== app-module.ts ===
+import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing-module';
+import { App } from './app';
+import { TripListing } from './trip-listing/trip-listing';
+import { TripCard } from './trip-card/trip-card';
+import { TripEdit } from './trip-edit/trip-edit';
+
+@NgModule({
+  declarations: [App, TripListing, TripCard, TripEdit],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [provideBrowserGlobalErrorListeners()],
+  bootstrap: [App],
+})
+export class AppModule {}
+
+
+=== app-routing-module.ts ===
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+=== trip-listing.ts ===
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-trip-listing',
+  standalone: false,
+  styleUrl: './trip-listing.css',
+  templateUrl: './trip-listing.html',
+})
+export class TripListing {}
+
