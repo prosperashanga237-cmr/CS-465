@@ -10,6 +10,11 @@
     <p class="card-text text-muted mb-1">{{ trip.length }} &middot; Starts {{ trip.startDate }}</p>
     <p class="card-text">{{ trip.resort }}</p>
     <p class="card-text fw-bold">{{ trip.perPerson }} per person</p>
-    <a [routerLink]="['/edit-trip', trip.tripCode]" class="btn btn-outline-primary mt-auto">Edit</a>
+    <a
+      *ngIf="authService.isLoggedIn()"
+      [routerLink]="['/edit-trip', trip.tripCode]"
+      class="btn btn-outline-primary mt-auto"
+      >Edit</a
+    >
   </div>
 </div>

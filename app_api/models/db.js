@@ -38,7 +38,7 @@ if (!dbURI) {
 }
 
 mongoose.connection.on('connected', () => {
-  console.log('Mongoose connected to ' + dbURI);
+  console.log('Mongoose connected to ' + dbURI.replace(/\/\/.*@/, '//<credentials-hidden>@'));
 });
 
 mongoose.connection.on('error', (err) => {
@@ -62,5 +62,6 @@ process.on('SIGINT', () => {
 // Load the schema/model definitions so they are registered with
 // Mongoose as soon as the database module is required.
 require('./travel');
+require('./member');
 
 module.exports = mongoose;

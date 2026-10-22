@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Trip } from '../models/trip';
 import { TripData } from '../services/trip-data';
+import { Authentication } from '../services/authentication';
 
 @Component({
   selector: 'app-trip-listing',
@@ -14,7 +15,8 @@ export class TripListing implements OnInit {
 
   constructor(
     private tripDataService: TripData,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public authService: Authentication
   ) {}
 
   ngOnInit(): void {
