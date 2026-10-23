@@ -1,0 +1,16 @@
+<nav class="navbar navbar-dark bg-dark mb-3">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">Travlr Getaways &mdash; Admin</a>
+
+    <div class="d-flex align-items-center" *ngIf="authService.isLoggedIn(); else loggedOut">
+      <span class="text-light me-3">Signed in as {{ authService.getCurrentUser()?.name }}</span>
+      <button type="button" class="btn btn-outline-light btn-sm" (click)="logout()">Log Out</button>
+    </div>
+
+    <ng-template #loggedOut>
+      <a routerLink="/login" class="btn btn-outline-light btn-sm">Log In</a>
+    </ng-template>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

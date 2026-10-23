@@ -1,0 +1,30 @@
+﻿=== trip-card.ts ===
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-trip-card',
+  standalone: false,
+  styleUrl: './trip-card.css',
+  templateUrl: './trip-card.html',
+})
+export class TripCard {}
+
+
+=== trip-edit.ts ===
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-trip-edit',
+  standalone: false,
+  styleUrl: './trip-edit.css',
+  templateUrl: './trip-edit.html',
+})
+export class TripEdit {}
+
+
+=== trip-data.ts ===
+import { Service } from '@angular/core';
+
+@Service()
+export class TripData {}
+
